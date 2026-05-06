@@ -1,0 +1,9 @@
+type,id,title,status,isbn,author,genre,director,duration,issueNumber,publisher
+BOOK,B001,Clean Code,IN_STORE,9780132350884,Robert C. Martin,Programming,,,,
+BOOK,B002,Clean Code,IN_STORE,9780132350884,Robert C. Martin,Programming,,,,
+BOOK,B003,Effective Java,IN_STORE,9780134685991,Joshua Bloch,Programming,,,,
+BOOK,B004,The Pragmatic Programmer,BORROWED,9780135957059,Andrew Hunt,Programming,,,,
+DVD,D001,Inception,IN_STORE,,,,Christopher Nolan,148,,
+DVD,D002,The Matrix,IN_STORE,,,,Lana Wachowski,136,,
+MAGAZINE,M001,National Geographic,IN_STORE,,,,,,256,National Geographic Society
+MAGAZINE,M002,IEEE Spectrum,IN_STORE,,,,,,5,IEEE

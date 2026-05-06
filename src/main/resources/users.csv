@@ -1,0 +1,6 @@
+type,userId,name
+STUDENT,S001,Alice Chen
+STUDENT,S002,Brian Park
+TEACHER,T001,Dr. Susan Wright
+TEACHER,T002,Dr. Marcus Lee
+ADMIN,A001,Library Admin
