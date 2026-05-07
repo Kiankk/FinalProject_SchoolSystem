@@ -33,6 +33,7 @@ public class DVD extends Item {
 
     @Override
     public String describe() {
-        return null;
+        return String.format("DVD[%s] \"%s\" dir. %s, %d min - %s",
+                getId(), getTitle(), director, durationMinutes, getStatus());
     }
 }

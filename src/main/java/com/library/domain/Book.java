@@ -41,6 +41,7 @@ public class Book extends Item {
 
     @Override
     public String describe() {
-        return null;
+        return String.format("Book[%s] \"%s\" by %s (ISBN %s, %s) - %s",
+                getId(), getTitle(), author, isbn, genre, getStatus());
     }
 }

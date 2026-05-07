@@ -33,6 +33,7 @@ public class Magazine extends Item {
 
     @Override
     public String describe() {
-        return null;
+        return String.format("Magazine[%s] \"%s\" issue #%d (%s) - %s",
+                getId(), getTitle(), issueNumber, publisher, getStatus());
     }
 }
