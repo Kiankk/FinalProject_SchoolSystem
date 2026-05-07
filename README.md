@@ -4,4 +4,6 @@ Library Management System — Java project.
 
 **Student:** Kian Dehghani
 
-See [ClassDiagram.md](ClassDiagram.md) for the class diagram (Deliverable 1).
+Class diagram (Deliverable 1):
+
+![Class Diagram](ClassDiagram.png)
