@@ -15,7 +15,7 @@ public final class Validation {
      * @return true if the value is a 13-digit numeric string
      */
     public static boolean isValidISBN(String isbn) {
-        return false;
+        return isbn != null && isbn.matches("\\d{13}");
     }
 
     /**
@@ -25,7 +25,7 @@ public final class Validation {
      * @return true if acceptable
      */
     public static boolean isValidUserId(String userId) {
-        return false;
+        return userId != null && userId.matches("[A-Z][A-Z0-9]{2,}");
     }
 
     /**
@@ -35,6 +35,6 @@ public final class Validation {
      * @return true if it carries non-whitespace content
      */
     public static boolean isNonBlank(String value) {
-        return false;
+        return value != null && !value.trim().isEmpty();
     }
 }
