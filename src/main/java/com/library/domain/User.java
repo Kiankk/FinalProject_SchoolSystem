@@ -53,6 +53,8 @@ public abstract class User {
      * @param item the item to add to this user's holdings
      */
     public void borrow(Item item) {
+        borrowedItems.add(item);
+        item.setStatus(ItemStatus.BORROWED);
     }
 
     /**
@@ -61,5 +63,7 @@ public abstract class User {
      * @param item the item to remove from this user's holdings
      */
     public void returnItem(Item item) {
+        borrowedItems.remove(item);
+        item.setStatus(ItemStatus.IN_STORE);
     }
 }
