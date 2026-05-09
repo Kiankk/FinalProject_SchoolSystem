@@ -12,6 +12,7 @@ import com.library.domain.User;
 import com.library.util.LibraryException;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -103,6 +104,32 @@ public class CSVService {
      * @param items items to serialize
      */
     public void saveItems(String path, List<Item> items) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(path))) {
+            writer.write("type,id,title,status,isbn,author,genre,director,duration,issueNumber,publisher");
+            writer.newLine();
+            for (Item item : items) {
+                writer.write(toCsvRow(item));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new LibraryException("Failed to save items: " + e.getMessage());
+        }
+    }
+
+    private String toCsvRow(Item item) {
+        String id = item.getId();
+        String title = item.getTitle();
+        String status = item.getStatus().name();
+        if (item instanceof Book b) {
+            return String.join(",", "BOOK", id, title, status, b.getIsbn(), b.getAuthor(), b.getGenre(), "", "", "", "");
+        }
+        if (item instanceof DVD d) {
+            return String.join(",", "DVD", id, title, status, "", "", "", d.getDirector(), String.valueOf(d.getDurationMinutes()), "", "");
+        }
+        if (item instanceof Magazine m) {
+            return String.join(",", "MAGAZINE", id, title, status, "", "", "", "", "", String.valueOf(m.getIssueNumber()), m.getPublisher());
+        }
+        throw new LibraryException("Unknown item subtype: " + item.getClass().getSimpleName());
     }
 
     /**
@@ -113,5 +140,25 @@ public class CSVService {
      * @param users users to serialize
      */
     public void saveUsers(String path, List<User> users) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(path))) {
+            writer.write("type,userId,name");
+            writer.newLine();
+            for (User user : users) {
+                String type;
+                if (user instanceof Student) {
+                    type = "STUDENT";
+                } else if (user instanceof Teacher) {
+                    type = "TEACHER";
+                } else if (user instanceof Admin) {
+                    type = "ADMIN";
+                } else {
+                    throw new LibraryException("Unknown user subtype: " + user.getClass().getSimpleName());
+                }
+                writer.write(String.join(",", type, user.getUserId(), user.getName()));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new LibraryException("Failed to save users: " + e.getMessage());
+        }
     }
 }
