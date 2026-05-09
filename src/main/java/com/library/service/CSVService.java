@@ -67,7 +67,32 @@ public class CSVService {
      * @return parsed user list
      */
     public List<User> loadUsers(String path) {
-        return null;
+        List<User> users = new ArrayList<>();
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(path))) {
+            String header = reader.readLine();
+            if (header == null) {
+                return users;
+            }
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.isBlank()) {
+                    continue;
+                }
+                String[] parts = line.split(",", -1);
+                String type = parts[0].trim();
+                String userId = parts[1].trim();
+                String name = parts[2].trim();
+                switch (type) {
+                    case "STUDENT" -> users.add(new Student(userId, name));
+                    case "TEACHER" -> users.add(new Teacher(userId, name));
+                    case "ADMIN" -> users.add(new Admin(userId, name));
+                    default -> throw new LibraryException("Unknown user type: " + type);
+                }
+            }
+        } catch (IOException e) {
+            throw new LibraryException("Failed to load users: " + e.getMessage());
+        }
+        return users;
     }
 
     /**
