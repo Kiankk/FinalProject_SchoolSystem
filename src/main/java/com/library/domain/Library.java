@@ -148,7 +148,21 @@ public class Library implements Reportable {
      * @return matching items, deduplicated
      */
     public Set<Item> searchRecursive(List<Item> source, String title) {
-        return null;
+        String needle = title == null ? "" : title.toLowerCase();
+        List<Item> matches = new ArrayList<>();
+        recurse(source, 0, needle, matches);
+        return dedupeByLogicalWork(matches);
+    }
+
+    private static void recurse(List<Item> source, int index, String needle, List<Item> matches) {
+        if (index >= source.size()) {
+            return;
+        }
+        Item current = source.get(index);
+        if (current.getTitle().toLowerCase().contains(needle)) {
+            matches.add(current);
+        }
+        recurse(source, index + 1, needle, matches);
     }
 
     /**
@@ -158,7 +172,11 @@ public class Library implements Reportable {
      * @return matching items, deduplicated
      */
     public Set<Item> searchStream(String title) {
-        return null;
+        String needle = title == null ? "" : title.toLowerCase();
+        List<Item> matches = items.stream()
+                .filter(i -> i.getTitle().toLowerCase().contains(needle))
+                .collect(Collectors.toList());
+        return dedupeByLogicalWork(matches);
     }
 
     /** @return the catalog items list */
