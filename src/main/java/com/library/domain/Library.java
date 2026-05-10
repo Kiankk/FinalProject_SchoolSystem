@@ -1,6 +1,7 @@
 package com.library.domain;
 
 import com.library.interfaces.Reportable;
+import com.library.util.LibraryException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +29,20 @@ public class Library implements Reportable {
      * @param item the item copy to register in the catalog
      */
     public void addItem(Item item) {
+        if (item == null) {
+            throw new LibraryException("Cannot add null item");
+        }
+        items.add(item);
     }
 
     /**
      * @param user the user to register
      */
     public void addUser(User user) {
+        if (user == null) {
+            throw new LibraryException("Cannot add null user");
+        }
+        users.add(user);
     }
 
     /**
@@ -43,6 +52,17 @@ public class Library implements Reportable {
      * @param itemId the item copy id to borrow
      */
     public void borrowItem(User user, String itemId) {
+        Item target = items.stream()
+                .filter(i -> i.getId().equals(itemId))
+                .findFirst()
+                .orElseThrow(() -> new LibraryException("Item not found: " + itemId));
+        if (target.getStatus() != ItemStatus.IN_STORE) {
+            throw new LibraryException("Item not available: " + itemId);
+        }
+        if (!user.canBorrow(target)) {
+            throw new LibraryException("Borrow rules deny user " + user.getUserId() + " for item " + itemId);
+        }
+        user.borrow(target);
     }
 
     /**
@@ -52,6 +72,11 @@ public class Library implements Reportable {
      * @param itemId the item copy id to return
      */
     public void returnItem(User user, String itemId) {
+        Item target = user.getBorrowedItems().stream()
+                .filter(i -> i.getId().equals(itemId))
+                .findFirst()
+                .orElseThrow(() -> new LibraryException("User does not hold item " + itemId));
+        user.returnItem(target);
     }
 
     /**
