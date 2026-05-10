@@ -4,8 +4,10 @@ import com.library.interfaces.Reportable;
 import com.library.util.LibraryException;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Aggregate root for the library. Owns the collection of items and users and
@@ -87,7 +89,14 @@ public class Library implements Reportable {
      * @return matching items, deduplicated
      */
     public Set<Item> searchByTitle(String title) {
-        return null;
+        String needle = title == null ? "" : title.toLowerCase();
+        List<Item> matches = new ArrayList<>();
+        for (Item item : items) {
+            if (item.getTitle().toLowerCase().contains(needle)) {
+                matches.add(item);
+            }
+        }
+        return dedupeByLogicalWork(matches);
     }
 
     /**
@@ -97,7 +106,38 @@ public class Library implements Reportable {
      * @return matching items, deduplicated
      */
     public Set<Item> searchByAuthor(String author) {
-        return null;
+        String needle = author == null ? "" : author.toLowerCase();
+        List<Item> matches = new ArrayList<>();
+        for (Item item : items) {
+            if (item instanceof Book book && book.getAuthor().toLowerCase().contains(needle)) {
+                matches.add(book);
+            }
+        }
+        return dedupeByLogicalWork(matches);
+    }
+
+    private static String logicalKey(Item item) {
+        if (item instanceof Book b) {
+            return "BOOK:" + b.getIsbn();
+        }
+        if (item instanceof DVD d) {
+            return "DVD:" + d.getTitle().toLowerCase() + "|" + d.getDirector().toLowerCase();
+        }
+        if (item instanceof Magazine m) {
+            return "MAG:" + m.getTitle().toLowerCase() + "|" + m.getIssueNumber();
+        }
+        return "OTHER:" + item.getId();
+    }
+
+    private static Set<Item> dedupeByLogicalWork(List<Item> source) {
+        Set<String> seen = new LinkedHashSet<>();
+        Set<Item> result = new LinkedHashSet<>();
+        for (Item item : source) {
+            if (seen.add(logicalKey(item))) {
+                result.add(item);
+            }
+        }
+        return result;
     }
 
     /**
