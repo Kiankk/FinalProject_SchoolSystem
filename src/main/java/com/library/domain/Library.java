@@ -191,6 +191,18 @@ public class Library implements Reportable {
 
     @Override
     public String generateReport() {
-        return null;
+        long borrowed = items.stream().filter(i -> i.getStatus() == ItemStatus.BORROWED).count();
+        long inStore = items.stream().filter(i -> i.getStatus() == ItemStatus.IN_STORE).count();
+        long lost = items.stream().filter(i -> i.getStatus() == ItemStatus.LOST).count();
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== Library Report ===\n");
+        sb.append(String.format("Total items: %d (borrowed=%d, in-store=%d, lost=%d)%n",
+                items.size(), borrowed, inStore, lost));
+        sb.append(String.format("Registered users: %d%n", users.size()));
+        sb.append("--- Items ---\n");
+        for (Item item : items) {
+            sb.append(item.describe()).append('\n');
+        }
+        return sb.toString();
     }
 }
