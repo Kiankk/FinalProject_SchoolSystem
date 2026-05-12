@@ -31,22 +31,22 @@ public class SortingService<T> {
 
     /** @return comparator that orders items by title, case-insensitive */
     public static Comparator<Item> byTitle() {
-        return Comparator.comparing(i -> i.getTitle().toLowerCase());
+        return Comparator.comparing(Item::getTitle, String.CASE_INSENSITIVE_ORDER);
     }
 
     /** @return comparator that orders items by status name */
     public static Comparator<Item> byStatus() {
-        return Comparator.comparing(i -> i.getStatus().name());
+        return Comparator.comparing(item -> item.getStatus().name());
     }
 
     /** @return comparator that orders books by author, case-insensitive */
     public static Comparator<Book> byAuthor() {
-        return Comparator.comparing(b -> b.getAuthor().toLowerCase());
+        return Comparator.comparing(Book::getAuthor, String.CASE_INSENSITIVE_ORDER);
     }
 
     /** @return comparator that orders users by display name, case-insensitive */
     public static Comparator<User> userByName() {
-        return Comparator.comparing(u -> u.getName().toLowerCase());
+        return Comparator.comparing(User::getName, String.CASE_INSENSITIVE_ORDER);
     }
 
     /** @return comparator that orders users by their userId */
