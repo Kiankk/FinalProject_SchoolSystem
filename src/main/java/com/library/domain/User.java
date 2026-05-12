@@ -1,6 +1,8 @@
 package com.library.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,20 +12,12 @@ import java.util.List;
  * checked out by this user.
  */
 @Getter
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class User {
 
     private final String userId;
     private final String name;
     private final List<Item> borrowedItems = new ArrayList<>();
-
-    /**
-     * @param userId unique user id
-     * @param name   display name
-     */
-    protected User(String userId, String name) {
-        this.userId = userId;
-        this.name = name;
-    }
 
     /**
      * Determines whether this user is allowed to borrow the given item right

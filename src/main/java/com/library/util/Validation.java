@@ -1,12 +1,13 @@
 package com.library.util;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * Static helpers for validating raw input strings before they are accepted by
  * the domain model.
  */
-public final class Validation {
-
-    private Validation() {}
+@UtilityClass
+public class Validation {
 
     /**
      * Checks that an ISBN is exactly 13 digits.
@@ -14,7 +15,7 @@ public final class Validation {
      * @param isbn candidate ISBN
      * @return true if the value is a 13-digit numeric string
      */
-    public static boolean isValidISBN(String isbn) {
+    public boolean isValidISBN(String isbn) {
         return isbn != null && isbn.matches("\\d{13}");
     }
 
@@ -24,7 +25,7 @@ public final class Validation {
      * @param userId candidate user id
      * @return true if acceptable
      */
-    public static boolean isValidUserId(String userId) {
+    public boolean isValidUserId(String userId) {
         return userId != null && userId.matches("[A-Z][A-Z0-9]{2,}");
     }
 
@@ -34,7 +35,7 @@ public final class Validation {
      * @param value the candidate value
      * @return true if it carries non-whitespace content
      */
-    public static boolean isNonBlank(String value) {
+    public boolean isNonBlank(String value) {
         return value != null && !value.trim().isEmpty();
     }
 }
