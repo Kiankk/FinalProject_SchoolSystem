@@ -1,6 +1,7 @@
 package com.library.service;
 
 import com.library.domain.Item;
+import com.library.domain.ItemStatus;
 import com.library.domain.User;
 import com.library.util.LibraryException;
 import lombok.Getter;
@@ -30,6 +31,9 @@ public class BorrowingService {
     public void processBorrow(User user, Item item) {
         if (user == null || item == null) {
             throw new LibraryException("Borrow requires both a user and an item");
+        }
+        if (item.getStatus() != ItemStatus.IN_STORE) {
+            throw new LibraryException("Item not available: " + item.getId());
         }
         if (!user.canBorrow(item)) {
             throw new LibraryException("User " + user.getUserId() + " cannot borrow " + item.getId());
