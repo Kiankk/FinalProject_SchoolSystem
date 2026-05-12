@@ -2,6 +2,7 @@ package com.library.domain;
 
 import com.library.interfaces.Reportable;
 import com.library.util.LibraryException;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -14,18 +15,11 @@ import java.util.stream.Collectors;
  * exposes the high-level operations for borrowing, returning, searching and
  * reporting.
  */
+@Getter
 public class Library implements Reportable {
 
-    private List<Item> items;
-    private List<User> users;
-
-    /**
-     * Creates an empty library.
-     */
-    public Library() {
-        this.items = new ArrayList<>();
-        this.users = new ArrayList<>();
-    }
+    private final List<Item> items = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
 
     /**
      * @param item the item copy to register in the catalog
@@ -177,16 +171,6 @@ public class Library implements Reportable {
                 .filter(i -> i.getTitle().toLowerCase().contains(needle))
                 .collect(Collectors.toList());
         return dedupeByLogicalWork(matches);
-    }
-
-    /** @return the catalog items list */
-    public List<Item> getItems() {
-        return items;
-    }
-
-    /** @return the registered users list */
-    public List<User> getUsers() {
-        return users;
     }
 
     @Override

@@ -1,13 +1,16 @@
 package com.library.domain;
 
+import lombok.Getter;
+
 /**
  * A book copy in the library catalog.
  */
+@Getter
 public class Book extends Item {
 
-    private String isbn;
-    private String author;
-    private String genre;
+    private final String isbn;
+    private final String author;
+    private final String genre;
 
     /**
      * @param id     unique copy id
@@ -22,21 +25,6 @@ public class Book extends Item {
         this.isbn = isbn;
         this.author = author;
         this.genre = genre;
-    }
-
-    /** @return the 13-digit ISBN */
-    public String getIsbn() {
-        return isbn;
-    }
-
-    /** @return the author name */
-    public String getAuthor() {
-        return author;
-    }
-
-    /** @return the genre label */
-    public String getGenre() {
-        return genre;
     }
 
     @Override

@@ -1,12 +1,15 @@
 package com.library.domain;
 
+import lombok.Getter;
+
 /**
  * A DVD copy in the library catalog.
  */
+@Getter
 public class DVD extends Item {
 
-    private String director;
-    private int durationMinutes;
+    private final String director;
+    private final int durationMinutes;
 
     /**
      * @param id              unique copy id
@@ -19,16 +22,6 @@ public class DVD extends Item {
         super(id, title, status);
         this.director = director;
         this.durationMinutes = durationMinutes;
-    }
-
-    /** @return the director name */
-    public String getDirector() {
-        return director;
-    }
-
-    /** @return the runtime in minutes */
-    public int getDurationMinutes() {
-        return durationMinutes;
     }
 
     @Override

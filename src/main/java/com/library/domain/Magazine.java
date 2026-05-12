@@ -1,12 +1,15 @@
 package com.library.domain;
 
+import lombok.Getter;
+
 /**
  * A magazine copy in the library catalog.
  */
+@Getter
 public class Magazine extends Item {
 
-    private int issueNumber;
-    private String publisher;
+    private final int issueNumber;
+    private final String publisher;
 
     /**
      * @param id          unique copy id
@@ -19,16 +22,6 @@ public class Magazine extends Item {
         super(id, title, status);
         this.issueNumber = issueNumber;
         this.publisher = publisher;
-    }
-
-    /** @return the issue number */
-    public int getIssueNumber() {
-        return issueNumber;
-    }
-
-    /** @return the publisher name */
-    public String getPublisher() {
-        return publisher;
     }
 
     @Override

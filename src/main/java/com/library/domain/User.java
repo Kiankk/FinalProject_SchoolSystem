@@ -1,5 +1,7 @@
 package com.library.domain;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +9,12 @@ import java.util.List;
  * Base class for any library user. Tracks identity and the items currently
  * checked out by this user.
  */
+@Getter
 public abstract class User {
 
-    private String userId;
-    private String name;
-    private List<Item> borrowedItems;
+    private final String userId;
+    private final String name;
+    private final List<Item> borrowedItems = new ArrayList<>();
 
     /**
      * @param userId unique user id
@@ -20,22 +23,6 @@ public abstract class User {
     protected User(String userId, String name) {
         this.userId = userId;
         this.name = name;
-        this.borrowedItems = new ArrayList<>();
-    }
-
-    /** @return the user id */
-    public String getUserId() {
-        return userId;
-    }
-
-    /** @return the display name */
-    public String getName() {
-        return name;
-    }
-
-    /** @return the list of items this user currently holds */
-    public List<Item> getBorrowedItems() {
-        return borrowedItems;
     }
 
     /**
